@@ -7,12 +7,17 @@ public class BookService {
     private final BookRepository repo = new BookRepository();
 
     public void addBook(BookBase book) {
-        book.validate();
         repo.create(book);
     }
 
     public void showAll() {
-        System.out.println(repo.getAll());
+
+        for (BookBase book : repo.getAll()) {
+            System.out.println(book.getId() + " | " +
+                    book.getEntityType() + " | " +
+                    book.getDetails() + " | " +
+                    book.getPrice());
+        }
     }
 
     public void removeBook(int id) {

@@ -22,7 +22,7 @@ public class Ebook extends BookBase {
 
     @Override
     public double getFileSizeMB() {
-        return 0;
+        return fileSizeMB;
     }
 
     @Override

@@ -6,6 +6,9 @@ import exception.InvalidInputException;
 import exception.ResourceNotFoundException;
 import service.CategoryService;
 
+import java.awt.print.Book;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -14,7 +17,10 @@ public class Main {
         CategoryService categoryService = new CategoryService();
 
         Category fiction = new Category(1, "Fiction");
+        Category horror = new Category(2, "Horror");
+
         fiction = categoryService.addCategory(fiction);
+        horror = categoryService.addCategory(horror);
 
         try {
             BookBase printed = new PrintedBook(
@@ -30,13 +36,13 @@ public class Main {
                     0,
                     "Breaking bad",
                     "Mister White",
-                    fiction,
+                    horror,
                     15,
-                    5
+                    12.50
             );
 
-            service.addBook(printed);
             service.addBook(ebook);
+            service.addBook(printed);
 
             System.out.println("Books created\n");
 
@@ -69,5 +75,8 @@ public class Main {
                 System.out.println("Expected error: " + e.getMessage());
             }
         }
+
+
+        service.showAll();
     }
 }
