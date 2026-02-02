@@ -3,7 +3,7 @@ package model;
 import Interfaces.Validatable;
 import Interfaces.PricedItem;
 
-public abstract class BookBase extends BaseEntity implements Validatable, PricedItem {
+public abstract class BookBase extends BaseEntity implements Validatable<BookBase>, PricedItem {
 
     protected String author;
     protected Category category;
@@ -18,7 +18,14 @@ public abstract class BookBase extends BaseEntity implements Validatable, Priced
 
     @Override
     public void validate() {
+        validateNotEmpty(getName(), "Name");
+        validateNotEmpty(author, "Author");
 
+        Validatable.validatePositive(price, "Price");
+
+        if (category == null) {
+            throw new IllegalArgumentException("Category must be provided");
+        }
     }
 
     @Override

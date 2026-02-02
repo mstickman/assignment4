@@ -1,5 +1,6 @@
 package repository;
 
+import Interfaces.CrudRepository;
 import exception.DatabaseOperationException;
 import exception.ResourceNotFoundException;
 import model.BookBase;
@@ -12,8 +13,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRepository {
+public class BookRepository implements CrudRepository<BookBase, Integer> {
 
+    @Override
     public void create(BookBase book) {
 
         book.validate();
@@ -70,6 +72,11 @@ public class BookRepository {
         } finally {
             close(keys, childPs, bookPs, con);
         }
+    }
+
+    @Override
+    public BookBase getById(Integer integer) {
+        return null;
     }
 
     public BookBase getById(int id) {
@@ -184,6 +191,16 @@ public class BookRepository {
         } catch (SQLException e) {
             throw new DatabaseOperationException("Failed when getting all books", e);
         }
+    }
+
+    @Override
+    public void update(Integer integer, BookBase entity) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void delete(Integer integer) {
+
     }
 
     public void delete(int id) {

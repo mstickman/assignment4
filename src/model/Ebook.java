@@ -24,20 +24,4 @@ public class Ebook extends BookBase {
     public double getFileSizeMB() {
         return fileSizeMB;
     }
-
-    @Override
-    public void validate() {
-        if (getName() == null || getName().isEmpty()) {
-            throw new InvalidInputException("Name cannot be empty");
-        }
-        if (getAuthor() == null || getAuthor().isEmpty()) {
-            throw new InvalidInputException("Author cannot be empty");
-        }
-        if (getPrice() <= 0) {
-            throw new InvalidInputException("Price must be positive");
-        }
-        if (getFileSizeMB() <= 0) {
-            throw new InvalidInputException("File size must be positive");
-        }
-    }
 }

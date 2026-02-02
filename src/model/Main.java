@@ -1,88 +1,34 @@
 package model;
-
-import model.*;
+import repository.BookRepository;
 import service.BookService;
-import exception.InvalidInputException;
-import exception.ResourceNotFoundException;
-import service.CategoryService;
-
-import java.awt.print.Book;
-import java.util.List;
+import utils.ReflectionUtils;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        BookService service = new BookService();
-        CategoryService categoryService = new CategoryService();
+        BookService service = new BookService(new BookRepository());
 
         Category fiction = new Category(1, "Fiction");
-        Category horror = new Category(2, "Horror");
 
-        fiction = categoryService.addCategory(fiction);
-        horror = categoryService.addCategory(horror);
+        System.out.println("CREATE BOOKS");
 
-        try {
-            BookBase printed = new PrintedBook(
-                    0,
-                    "1488",
-                    "George Floyd",
-                    fiction,
-                    12.50,
-                    328
-            );
+        BookBase b1 = new PrintedBook(0, "1488", "Master Beach", fiction, 12.5, 328);
 
-            BookBase ebook = new Ebook(
-                    0,
-                    "Breaking bad",
-                    "Mister White",
-                    horror,
-                    15,
-                    12.50
-            );
+        BookBase b2 = new Ebook(0, "Tony Boltyn", "Valilonga", fiction, 15.0, 5.2);
 
-            service.addBook(ebook);
-            service.addBook(printed);
+        service.addBook(b1);
+        service.addBook(b2);
 
-            System.out.println("Books created\n");
+        System.out.println("\nALL BOOKS");
+        service.getAllBooks().forEach(System.out::println);
 
-            service.getBookById(1);
+        System.out.println("\nSORTED BY PRICE");
+        service.getBooksSortedByPrice().forEach(b -> System.out.println(b.getName() + " -> " + b.getPrice()));
 
-            System.out.println("PricedItem: " + printed.getPrice());
+        System.out.println("\nREFLECTION DEMO");
+        ReflectionUtils.inspectClass(BookBase.class);
 
-        } catch (InvalidInputException e) {
-            System.out.println("Validation failed: " + e.getMessage());
-
-        } catch (ResourceNotFoundException e) {
-            System.out.println("Not found: " + e.getMessage());
-
-        } finally {
-
-            try {
-                service.removeBook(999);
-            } catch (ResourceNotFoundException e) {
-                System.out.println("Expected error: " + e.getMessage());
-            }
-        }
-
-        try{
-            //error validation
-            BookBase invalid = new PrintedBook(
-                    0,
-                    "",
-                    "",
-                    fiction,
-                    -5,
-                    0
-            );
-            service.addBook(invalid);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-
-
-        service.showAll();
+        System.out.println("\nDELETE BOOK");
+        service.removeBook(1);
     }
 }
