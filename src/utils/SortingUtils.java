@@ -12,8 +12,7 @@ public class SortingUtils {
         return books.stream().sorted(Comparator.comparing(BookBase::getPrice)).collect(Collectors.toList());
     }
 
-    public static List<BookBase> filterByPrice(
-            List<BookBase> books, double minPrice) {
+    public static List<BookBase> filterByPrice(List<BookBase> books, double minPrice) {
 
         Predicate<BookBase> priceFilter = book -> book.getPrice() >= minPrice;
 
